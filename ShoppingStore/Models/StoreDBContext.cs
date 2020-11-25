@@ -1,16 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace ShoppingStore.Models
 {
-    public class StoreDBContext : Controller
+    public class StoreDbContext : DbContext
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+        public StoreDbContext(DbContextOptions<StoreDbContext> options)
+            : base(options) { }
+        public DbSet<Product> Products { get; set; }
     }
 }

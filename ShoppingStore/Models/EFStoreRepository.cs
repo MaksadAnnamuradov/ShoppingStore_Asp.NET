@@ -1,16 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
 namespace ShoppingStore.Models
 {
-    public class EFStoreRepository : Controller
+    public class EFStoreRepository : IStoreRepository
     {
-        public IActionResult Index()
+        private StoreDbContext context;
+        public EFStoreRepository(StoreDbContext ctx)
         {
-            return View();
+            context = ctx;
         }
+        public IQueryable<Product> Products => context.Products;
     }
 }
