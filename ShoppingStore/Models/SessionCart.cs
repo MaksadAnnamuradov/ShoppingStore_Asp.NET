@@ -21,6 +21,7 @@ namespace ShoppingStore.Models
             cart.Session = session;
             return cart;
         }
+
         [JsonIgnore]
         public ISession Session { get; set; }
         public override void AddItem(Product product, int quantity)
