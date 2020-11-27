@@ -30,6 +30,7 @@ namespace ShoppingStore
             services.AddDbContext<StoreDbContext>(options => options.UseNpgsql(convertUrlConnectionString(Configuration["DATABASE_URL"])));
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddScoped<IStoreRepository, EFStoreRepository>();
+            services.AddScoped<IOrderRepository, EFOrderRepository>();
             services.AddRazorPages();
             services.AddDistributedMemoryCache();
             services.AddSession();
