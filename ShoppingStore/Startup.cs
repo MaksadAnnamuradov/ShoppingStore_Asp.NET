@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using ShoppingStore.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 
 namespace ShoppingStore
 {
@@ -37,6 +38,9 @@ namespace ShoppingStore
             services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddServerSideBlazor();
+
+            services.AddDbContext<AppIdentityDbContext>(options => options.UseNpgsql(convertUrlConnectionString(Configuration["IdentityConnection"])));
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppIdentityDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +60,9 @@ namespace ShoppingStore
             app.UseStaticFiles();
             app.UseSession();
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseAuthorization();
 
@@ -78,7 +85,7 @@ namespace ShoppingStore
             });
 
             SeedData.EnsurePopulated(app);
-
+            IdentitySeedData.EnsurePopulated(app);
         }
 
         private static string convertUrlConnectionString(string url)
