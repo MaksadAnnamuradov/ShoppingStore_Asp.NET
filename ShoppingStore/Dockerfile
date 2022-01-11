@@ -1,25 +1,10 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+FROM mcr.microsoft.com/dotnet/aspnet:5.0
+FROM mcr.microsoft.com/dotnet/sdk:5.0
 
-#Depending on the operating system of the host machines(s) that will build or run the containers, the image specified in the FROM statement may need to be changed.
-#For more information, please see https://aka.ms/containercompat
+COPY /bin/Release/net5.0/publish/ ShoppingStore/
 
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS base
-WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+ENV ASPNETCORE_ENVIRONMENT Production
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
-WORKDIR /src
-COPY ["ShoppingStore/ShoppingStore.csproj", "ShoppingStore/"]
-RUN dotnet restore "ShoppingStore/ShoppingStore.csproj"
-COPY . .
-WORKDIR "/src/ShoppingStore"
-RUN dotnet build "ShoppingStore.csproj" -c Release -o /app/build
-
-FROM build AS publish
-RUN dotnet publish "ShoppingStore.csproj" -c Release -o /app/publish
-
-FROM base AS final
-WORKDIR /app
-COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "ShoppingStore.dll"]
+EXPOSE 5000
+WORKDIR /ShoppingStore
+ENTRYPOINT ["dotnet", "ShoppingStore.dll",  "--urls=http://0.0.0.0:5000"]
