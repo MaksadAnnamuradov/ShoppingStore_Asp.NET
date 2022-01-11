@@ -1,15 +1,48 @@
 ﻿version: "3"
+
+networks:
+  dockerapi-dev:
+    driver: bridge 
+
 services:
-    sportsstore:
-        build: .
-        ports:
-            - "5000:5000"
-        environment:
-            - ASPNETCORE_ENVIRONMENT=Production
+    shoppingstore:
+        image: shoppingstore:latest
         depends_on:
-            - postgres
-    postgres:
-        image: "postgres"
+          - "shoppingdb"
+          - "identitydb"
+        build:
+          context: .
+          dockerfile: Dockerfile
+        ports:
+          - "5000:5000"     
         environment:
-            SA_PASSWORD: "admin"
-            ACCEPT_EULA: "Y"
+          ASPNETCORE_ENVIRONMENT: Production
+        networks:
+          - dockerapi-dev  
+    shopdb:
+        image: postgres:latest
+        ports:
+            - "5432:5432"
+        volumes:
+          - db_volume:/var/lib/postgresql/data
+          - ./dbscripts/seed.sql :/docker-entrypoint-initdb.d/seed.sql
+        environment:
+            POSTGRES_USER: "postgres"
+            POSTGRES_PASSWORD: "admin"
+        networks:
+            - dockerapi-dev
+
+    identitydb:
+        image: postgres:latest
+        ports:
+            - "5432:5432"
+        volumes:
+          - db_volume:/var/lib/postgresql/data
+          - ./dbscripts/seed.sql :/docker-entrypoint-initdb.d/seed.sql
+        environment:
+            POSTGRES_USER: "postgres"
+            POSTGRES_PASSWORD: "password"
+        networks:
+            - dockerapi-dev
+volumes:
+  db_volume:
