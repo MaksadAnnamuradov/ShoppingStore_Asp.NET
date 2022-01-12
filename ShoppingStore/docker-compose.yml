@@ -1,48 +1,52 @@
-﻿version: "3"
+﻿version: "3.7"
 
 networks:
   dockerapi-dev:
-    driver: bridge 
+    driver: bridge #by defult
 
 services:
     shoppingstore:
+        container_name: 'shoppingstore'
         image: shoppingstore:latest
         depends_on:
-          - "shoppingdb"
+          - "shopdb"
           - "identitydb"
         build:
           context: .
           dockerfile: Dockerfile
         ports:
-          - "5000:5000"     
+          - "80:80"     
         environment:
           ASPNETCORE_ENVIRONMENT: Production
         networks:
           - dockerapi-dev  
     shopdb:
+        container_name: 'shopdb'
         image: postgres:latest
         ports:
             - "5432:5432"
         volumes:
-          - db_volume:/var/lib/postgresql/data
-          - ./dbscripts/seed.sql :/docker-entrypoint-initdb.d/seed.sql
+            - shopdb_volume:/var/lib/postgresql/data
+            #- ./seed.sql :/docker-entrypoint-initdb.d/seed.sql
         environment:
-            POSTGRES_USER: "postgres"
-            POSTGRES_PASSWORD: "admin"
+            POSTGRES_USER: "shop_user"
+            POSTGRES_PASSWORD: "password"
         networks:
             - dockerapi-dev
 
     identitydb:
+        container_name: 'identitydb'
         image: postgres:latest
         ports:
-            - "5432:5432"
+            - "5434:5432"
         volumes:
-          - db_volume:/var/lib/postgresql/data
-          - ./dbscripts/seed.sql :/docker-entrypoint-initdb.d/seed.sql
+            - identitydb_volume:/var/lib/postgresql/data
+        #  - ./dbscripts/seed.sql :/docker-entrypoint-initdb.d/seed.sql
         environment:
-            POSTGRES_USER: "postgres"
+            POSTGRES_USER: "identity_user"
             POSTGRES_PASSWORD: "password"
         networks:
             - dockerapi-dev
 volumes:
-  db_volume:
+    shopdb_volume:
+    identitydb_volume:
