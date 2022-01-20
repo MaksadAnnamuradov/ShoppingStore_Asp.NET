@@ -47,15 +47,26 @@ services:
             POSTGRES_PASSWORD: "password"
         networks:
             - dockerapi-dev
-    webserver:
-        image: nginx:latest
-        ports:
-          - 80:80
-          - 443:443
-        restart: always
+    swag:
+        image: ghcr.io/linuxserver/swag
+        container_name: swag
+        cap_add:
+          - NET_ADMIN
+        environment:
+          - PUID=1000
+          - PGID=1000
+          - TZ=America/Denver
+          - URL=maksadannamuradov.com
+          - SUBDOMAINS=www, shopping
+          - VALIDATION=http
         volumes:
-          - ./nginx/conf/:/etc/nginx/conf.d/:ro
-          - ./certbot/www:/var/www/certbot/:ro
+          - /default.conf:/config
+        ports:
+          - 443:443
+          - 80:80
+        depends_on:
+          - mariadb
+        restart: unless-stopped
 volumes:
     shopdb_volume:
     identitydb_volume:
