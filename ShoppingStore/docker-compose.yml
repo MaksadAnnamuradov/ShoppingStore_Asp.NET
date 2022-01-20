@@ -59,8 +59,9 @@ services:
           - URL=maksadannamuradov.com
           - SUBDOMAINS=www, shopping
           - VALIDATION=http
+          - STAGING=true
         volumes:
-          - /default.conf:/config/default
+          - /swag/config:/config
         ports:
           - 443:443
           - 80:80
