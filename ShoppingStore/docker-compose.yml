@@ -60,7 +60,7 @@ services:
           - SUBDOMAINS=www, shopping
           - VALIDATION=http
         volumes:
-          - /default.conf:/config
+          - /default.conf:/config/default
         ports:
           - 443:443
           - 80:80
