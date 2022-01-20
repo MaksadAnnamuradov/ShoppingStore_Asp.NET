@@ -65,7 +65,9 @@ services:
           - 443:443
           - 80:80
         depends_on:
-          - mariadb
+          - identitydb
+          - shopdb
+          - shoppingstore
         restart: unless-stopped
 volumes:
     shopdb_volume:
