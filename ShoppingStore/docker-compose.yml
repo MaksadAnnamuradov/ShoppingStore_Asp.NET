@@ -62,7 +62,7 @@ services:
           - STAGING=true
         volumes:
           - /swag/config:/config
-          - ./default.conf:/swag/config/nginx/site-confs/default
+          - ./default.conf:/config/nginx/site-confs/default
         ports:
           - 443:443
           - 80:80
