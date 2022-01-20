@@ -61,7 +61,7 @@ services:
           - VALIDATION=http
           - STAGING=false
         volumes:
-          - /swag:/config
+          - /swag/config:/config
           - ./default.conf:/config/nginx/site-confs/default
         ports:
           - 443:443
