@@ -57,7 +57,7 @@ services:
           - PGID=1000
           - TZ=America/Denver
           - URL=shopping.maksadannamuradov.com
-          - SUBDOMAINS=www
+          - SUBDOMAINS=www, admin
           - VALIDATION=http
           - STAGING=false
         volumes:
@@ -73,6 +73,8 @@ services:
         networks:
             - dockerapi-dev
         restart: unless-stopped
+        extra_hosts:
+            - host.docker.internal:host-gateway
 volumes:
     shopdb_volume:
     identitydb_volume:
