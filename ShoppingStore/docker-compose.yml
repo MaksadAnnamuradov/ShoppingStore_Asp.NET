@@ -24,7 +24,7 @@ services:
         container_name: 'shopdb'
         image: postgres:latest
         ports:
-            - "5432:5432"
+            - "5436:5432"
         volumes:
             - shopdb_volume:/var/lib/postgresql/data
             #- ./seed.sql :/docker-entrypoint-initdb.d/seed.sql
