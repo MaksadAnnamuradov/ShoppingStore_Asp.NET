@@ -56,8 +56,8 @@ services:
           - PUID=1000
           - PGID=1000
           - TZ=America/Denver
-          - URL=maksadannamuradov.com
-          - SUBDOMAINS=shopping,admin
+          - URL=shopping.maksadannamuradov.com
+          - SUBDOMAINS=admin
           - VALIDATION=http
           #- EXTRA_DOMAINS=admin.maksadannamuradov.com #optional
           - STAGING=false
