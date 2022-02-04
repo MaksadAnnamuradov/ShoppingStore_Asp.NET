@@ -17,4 +17,5 @@ jobs:
 
       - name: build
         run: |
+          cd ShoppingStore
           docker-compose up --build -d
