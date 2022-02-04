@@ -26,7 +26,6 @@ jobs:
     - name: Build the docker-compose stack
       run: |
           cd ShoppingStore
-          DOCKER_BUILDKIT=1 COMPOSE_DOCKER_CLI_BUILD=1 docker-compose build --parallel --pull
           docker-compose up -d
     - name: Check running containers
       run: docker ps -a
