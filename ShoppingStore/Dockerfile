@@ -12,5 +12,6 @@ FROM mcr.microsoft.com/dotnet/aspnet:5.0
 ENV ASPNETCORE_ENVIRONMENT Production
 WORKDIR /app
 COPY --from=build /app/out .
+EXPOSE 80
 
-ENTRYPOINT ["dotnet", "ShoppingStore.dll"]
+ENTRYPOINT ["dotnet", "ShoppingStore.dll", "--urls=http://0.0.0.0:80"]
