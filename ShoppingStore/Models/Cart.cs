@@ -11,6 +11,7 @@ namespace ShoppingStore.Models
             CartLine line = Lines
             .Where(p => p.Product.ProductID == product.ProductID)
             .FirstOrDefault();
+
             if (line == null)
             {
                 Lines.Add(new CartLine
@@ -26,8 +27,10 @@ namespace ShoppingStore.Models
         }
         public virtual void RemoveLine(Product product) =>
         Lines.RemoveAll(l => l.Product.ProductID == product.ProductID);
+
         public decimal ComputeTotalValue() =>
         Lines.Sum(e => e.Product.Price * e.Quantity);
+
         public virtual void Clear() => Lines.Clear();
     }
     public class CartLine
