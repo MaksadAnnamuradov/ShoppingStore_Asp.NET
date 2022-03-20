@@ -10,11 +10,8 @@ namespace ShoppingStore.Models
 {
     public class Order
     {
-        [BindNever]
         public int OrderID { get; set; }
         public bool GiftWrap { get; set; }
-
-        [BindNever]
         public bool Shipped { get; set; }
     }
 }
