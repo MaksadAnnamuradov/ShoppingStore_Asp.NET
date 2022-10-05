@@ -1,0 +1,1 @@
+This is just a simple shopping store that I worked during school year. It is built with Asp.net Core 3.1 and Asp.net core and Identity Management for managing users. Also, it connects to PgSql database and uses docker compose
